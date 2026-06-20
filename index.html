@@ -157,11 +157,15 @@
     background:linear-gradient(180deg, #181313, #0e0c0c);
     transform:translateY(-2px);
   }
-  .link-card:active{
-    transform:scale(0.95);
-    border-color:rgba(193,20,36,0.9);
-    box-shadow:0 0 26px rgba(193,20,36,0.55);
-    transition:transform .12s cubic-bezier(.22,1,.36,1), border-color .15s ease, box-shadow .15s ease;
+  .link-card.is-active{
+    transform:scale(0.97);
+    border-color:var(--blood-bright);
+    box-shadow:
+      0 0 4px 1px rgba(217,24,40,0.95),
+      0 0 14px 2px rgba(193,20,36,0.7),
+      0 0 30px 5px rgba(193,20,36,0.4),
+      inset 0 0 10px 1px rgba(193,20,36,0.55);
+    transition:transform .12s cubic-bezier(.22,1,.36,1), border-color .12s ease, box-shadow .12s ease;
   }
   @keyframes breathe{
     0%,100%{ box-shadow:0 0 0 rgba(193,20,36,0); }
@@ -179,21 +183,7 @@
     transition:color .2s ease;
   }
   .link-card:hover .link-label,
-  .link-card:active .link-label{ color:#fff; }
-
-  /* tap fill effect — expands to flood the whole button */
-  .ripple{
-    position:absolute;
-    border-radius:50%;
-    background:radial-gradient(circle, rgba(217,24,40,0.85) 0%, rgba(193,20,36,0.55) 45%, rgba(193,20,36,0) 78%);
-    transform:scale(0);
-    opacity:1;
-    pointer-events:none;
-    animation:ripple-expand .55s cubic-bezier(.22,1,.36,1) forwards;
-  }
-  @keyframes ripple-expand{
-    to{ transform:scale(1); opacity:0; }
-  }
+  .link-card.is-active .link-label{ color:#fff; }
 
   .links a:nth-child(1){ animation-delay:.05s; }
   .links a:nth-child(2){ animation-delay:.12s; }
@@ -206,8 +196,58 @@
     to{ opacity:1; transform:translateY(0); }
   }
 
+  /* ---------- audio button ---------- */
+  .audio-btn{
+    position:relative;
+    width:60px;
+    height:60px;
+    margin-top:38px;
+    border-radius:50%;
+    border:1.5px solid rgba(193,20,36,0.6);
+    background:linear-gradient(180deg, var(--card), #0e0c0c);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    padding:0;
+    -webkit-tap-highlight-color:transparent;
+    box-shadow:0 0 14px rgba(193,20,36,0.3);
+    transition:transform .2s cubic-bezier(.22,1,.36,1), box-shadow .3s ease, border-color .3s ease;
+  }
+  .audio-btn.is-active{ transform:scale(0.92); }
+  .audio-btn::before,
+  .audio-btn::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:50%;
+    border:1.5px solid var(--blood-bright);
+    opacity:0;
+  }
+  .audio-btn.playing{
+    border-color:var(--blood-bright);
+    box-shadow:0 0 22px rgba(193,20,36,0.55);
+  }
+  .audio-btn.playing::before,
+  .audio-btn.playing::after{
+    animation:pulse-ring 2.2s cubic-bezier(.4,0,.6,1) infinite;
+  }
+  .audio-btn.playing::after{ animation-delay:.4s; }
+  .audio-btn svg{
+    position:relative;
+    z-index:1;
+    width:20px;
+    height:20px;
+    color:var(--ink);
+    transition:color .2s ease;
+  }
+  .audio-btn.playing svg{ color:var(--blood-bright); }
+  .audio-btn .icon-pause{ display:none; }
+  .audio-btn.playing .icon-play{ display:none; }
+  .audio-btn.playing .icon-pause{ display:block; }
+
   @media (prefers-reduced-motion: reduce){
-    .avatar-wrap::before,.avatar-wrap::after,.link-card{
+    .avatar-wrap::before,.avatar-wrap::after,.link-card,.audio-btn::before,.audio-btn::after{
       animation:none !important;
       opacity:1 !important;
       transform:none !important;
@@ -259,26 +299,50 @@
       </a>
 
     </nav>
+
+    <button class="audio-btn" id="audioBtn" type="button" aria-label="Reproducir sonido">
+      <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+      <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor">
+        <rect x="6" y="5" width="4" height="14" rx="1"/>
+        <rect x="14" y="5" width="4" height="14" rx="1"/>
+      </svg>
+    </button>
+    <audio id="bgAudio" src="track.mp3" preload="none" loop></audio>
   </div>
 
   <div class="symbols-field" id="symbolsField" aria-hidden="true"></div>
 
   <script>
   (function(){
-    // tap ripple on each button
+    // neon edge glow while a button is pressed
     document.querySelectorAll('.link-card').forEach(function(card){
-      card.addEventListener('pointerdown', function(e){
-        var rect = card.getBoundingClientRect();
-        var size = Math.max(rect.width * 2.3, rect.height * 2.3);
-        var ripple = document.createElement('span');
-        ripple.className = 'ripple';
-        ripple.style.width = ripple.style.height = size + 'px';
-        ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
-        ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
-        card.appendChild(ripple);
-        ripple.addEventListener('animationend', function(){ ripple.remove(); });
-      });
+      var press = function(){ card.classList.add('is-active'); };
+      var release = function(){ card.classList.remove('is-active'); };
+      card.addEventListener('pointerdown', press);
+      card.addEventListener('pointerup', release);
+      card.addEventListener('pointerleave', release);
+      card.addEventListener('pointercancel', release);
     });
+
+    // music play/pause button
+    var audioBtn = document.getElementById('audioBtn');
+    var audio = document.getElementById('bgAudio');
+    if(audioBtn && audio){
+      audioBtn.addEventListener('pointerdown', function(){ audioBtn.classList.add('is-active'); });
+      ['pointerup','pointerleave','pointercancel'].forEach(function(ev){
+        audioBtn.addEventListener(ev, function(){ audioBtn.classList.remove('is-active'); });
+      });
+      audioBtn.addEventListener('click', function(){
+        if(audio.paused){
+          audio.play();
+          audioBtn.classList.add('playing');
+        } else {
+          audio.pause();
+          audioBtn.classList.remove('playing');
+        }
+      });
+      audio.addEventListener('ended', function(){ audioBtn.classList.remove('playing'); });
+    }
 
     // floating mystical symbols ✡︎ 🪬 𓁹
     var field = document.getElementById('symbolsField');
