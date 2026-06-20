@@ -350,7 +350,7 @@
     var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     if (field && !reduceMotion) {
-      var maxAlive = 6;
+      var maxAlive = 22;
       setInterval(function(){
         if (field.childElementCount >= maxAlive) return;
         var el = document.createElement('span');
@@ -363,7 +363,7 @@
         el.style.fontSize = (16 + Math.random() * 16) + 'px';
         field.appendChild(el);
         setTimeout(function(){ el.remove(); }, dur * 1000 + 150);
-      }, 1100);
+      }, 350);
     }
   })();
   </script>
