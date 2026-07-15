@@ -57,7 +57,6 @@
             height: 100%;
             overflow: hidden;
             z-index: -1;
-            /* Resplandor inmersivo tipo agua profunda */
             background: radial-gradient(circle at center, rgba(0, 90, 200, 0.15) 0%, #020205 70%);
         }
 
@@ -181,7 +180,8 @@
             backdrop-filter: blur(2px);
         }
 
-        .link-btn:active {
+        /* El estado :active clásico se complementa con la clase .clicked de JavaScript */
+        .link-btn:active, .link-btn.clicked {
             transform: scale(0.92); 
             border-color: #ffffff; 
             box-shadow: 0 0 25px rgba(255, 255, 255, 1), inset 0 0 10px rgba(255, 255, 255, 0.6); 
@@ -229,12 +229,36 @@
     <h1>BRX'</h1>
 
     <div class="links-container">
-        <a href="https://discord.gg/NzsUagAc" class="link-btn" target="_blank" rel="noopener noreferrer">Discord</a>
-        <a href="https://wa.me/5214433799879" class="link-btn" target="_blank" rel="noopener noreferrer">WhatsApp</a>
-        <a href="https://t.me/utileria" class="link-btn" target="_blank" rel="noopener noreferrer">Telegram</a>
-        <a href="https://www.instagram.com/brx057?igsh=aWEwOGE5dHdpbDd4" class="link-btn" target="_blank" rel="noopener noreferrer">Instagram</a>
-        <a href="https://tiktok.com/@brx_057" class="link-btn" target="_blank" rel="noopener noreferrer">TikTok</a>
+        <a href="https://discord.gg/NzsUagAc" class="link-btn">Discord</a>
+        <a href="https://wa.me/5214433799879" class="link-btn">WhatsApp</a>
+        <a href="https://t.me/utileria" class="link-btn">Telegram</a>
+        <a href="https://www.instagram.com/brx057?igsh=aWEwOGE5dHdpbDd4" class="link-btn">Instagram</a>
+        <a href="https://tiktok.com/@brx_057" class="link-btn">TikTok</a>
     </div>
+
+    <!-- SCRIPT DE RETARDO DE ANIMACIÓN SÚPER FLUIDO -->
+    <script>
+        document.querySelectorAll('.link-btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                // Detener apertura instantánea del enlace
+                e.preventDefault();
+                
+                const url = this.getAttribute('href');
+                
+                // Forzar el estilo de animación activa
+                this.classList.add('clicked');
+                
+                // Esperar exactamente 250ms antes de ejecutar la acción
+                setTimeout(() => {
+                    // Quitamos la clase para que el botón vuelva a su tamaño normal suavemente
+                    this.classList.remove('clicked');
+                    
+                    // Abrimos el link en una pestaña nueva de forma segura
+                    window.open(url, '_blank', 'noopener,noreferrer');
+                }, 250); 
+            });
+        });
+    </script>
 
 </body>
 </html>
