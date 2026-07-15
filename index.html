@@ -17,7 +17,9 @@
     <meta name="twitter:title" content="BRX'">
     <meta name="twitter:description" content="all my social media">
     <meta name="twitter:image" content="https://brx057.github.io/perfil.png">
-    <meta name="theme-color" content="#020205"> <style>
+    <meta name="theme-color" content="#020205">
+
+    <style>
         /* --- SEGURIDAD Y RESETEO --- */
         * {
             margin: 0;
@@ -46,8 +48,8 @@
             position: relative;
         }
 
-        /* --- ANIMACIÓN DE OLAS Y SÍMBOLOS AL FONDO --- */
-        .wave-bg {
+        /* --- FONDO PROFUNDO SUBMARINO --- */
+        .water-bg {
             position: absolute;
             top: 0;
             left: 0;
@@ -55,28 +57,11 @@
             height: 100%;
             overflow: hidden;
             z-index: -1;
-        }
-        
-        .wave {
-            position: absolute;
-            bottom: -15%;
-            left: 50%;
-            width: 250vw;
-            height: 250vw;
-            background: radial-gradient(circle at center, rgba(0,119,255,0.02) 0%, rgba(0,119,255,0.18) 100%);
-            box-shadow: inset 0 0 50px rgba(0, 119, 255, 0.4);
-            border-radius: 40% 45% 55% 45%;
-            transform: translateX(-50%);
-            animation: rotateWave 12s linear infinite;
-        }
-        
-        .wave:nth-child(2) {
-            bottom: -20%;
-            background: radial-gradient(circle at center, rgba(0,119,255,0.01) 0%, rgba(0,119,255,0.12) 100%);
-            border-radius: 45% 40% 45% 55%;
-            animation: rotateWave 18s linear infinite reverse; 
+            /* Resplandor inmersivo tipo agua profunda */
+            background: radial-gradient(circle at center, rgba(0, 90, 200, 0.15) 0%, #020205 70%);
         }
 
+        /* --- SÍMBOLOS GIRANDO EN EL AGUA --- */
         .symbols-layer {
             position: absolute;
             top: -50%;
@@ -93,9 +78,9 @@
 
         .sym {
             position: absolute;
-            color: rgba(0, 119, 255, 0.3);
+            color: rgba(0, 119, 255, 0.25);
             font-size: 24px;
-            text-shadow: 0 0 10px rgba(0, 119, 255, 0.8);
+            text-shadow: 0 0 12px rgba(0, 119, 255, 0.9);
             animation: pulseSym 4s infinite alternate;
         }
 
@@ -109,7 +94,7 @@
             100% { opacity: 1; transform: scale(1.2); }
         }
 
-        /* --- CONTENEDOR DE PERFIL (EFECTO EXPANSIÓN) --- */
+        /* --- CONTENEDOR DE PERFIL --- */
         .profile-container {
             position: relative;
             margin-bottom: 2vh; 
@@ -215,9 +200,7 @@
 </head>
 <body oncontextmenu="return false;" onselectstart="return false;" ondragstart="return false;">
 
-    <div class="wave-bg">
-        <div class="wave"></div>
-        <div class="wave"></div>
+    <div class="water-bg">
         
         <div class="symbols-layer">
             <div class="sym" style="top: 20%; left: 30%;">⛧</div>
