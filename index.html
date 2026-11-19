@@ -4,92 +4,75 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>brx'</title>
-<meta name="theme-color" content="#07040f">
+<meta name="theme-color" content="#050203">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=UnifrakturCinzel:wght@700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --void:#07040f; --ink:#eafcff; --pink:#ff2ea6; --cyan:#19f0ff; --violet:#8b5cff;
-  --font:'Orbitron','Segoe UI',system-ui,sans-serif;
+  --black:#050203; --blood:#b3121f; --deep:#5c0a10; --bone:#ece4d3; --ash:#8a8176;
+  --title:'UnifrakturCinzel','Old English Text MT',Georgia,serif;
+  --text:'IM Fell English',Georgia,'Times New Roman',serif;
 }
 *{box-sizing:border-box;margin:0}
 html,body{min-height:100%}
 body{
-  background:var(--void);color:var(--ink);font-family:var(--font);
+  background:radial-gradient(ellipse at 50% 115%,#2a0508 0%,var(--black) 62%);
+  color:var(--bone);font-family:var(--text);
   display:flex;justify-content:center;align-items:center;min-height:100vh;min-height:100dvh;
-  padding:max(28px,env(safe-area-inset-top)) 20px max(40px,env(safe-area-inset-bottom));
+  padding:max(32px,env(safe-area-inset-top)) 20px max(44px,env(safe-area-inset-bottom));
   overflow-x:hidden;
 }
-#rain{position:fixed;inset:0;width:100%;height:100%;z-index:0;opacity:.35}
-body::before{ /* grid */
-  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
-  background:
-    linear-gradient(transparent 94%,rgba(25,240,255,.10) 95%) 0 0/100% 44px,
-    linear-gradient(90deg,transparent 94%,rgba(255,46,166,.08) 95%) 0 0/44px 100%;
-}
-body::after{ /* scanlines */
+#ash{position:fixed;inset:0;width:100%;height:100%;z-index:0}
+body::after{ /* vignette */
   content:"";position:fixed;inset:0;z-index:3;pointer-events:none;
-  background:repeating-linear-gradient(transparent 0 2px,rgba(0,0,0,.28) 3px);
+  background:radial-gradient(ellipse at center,transparent 45%,rgba(0,0,0,.85) 100%);
 }
 main{position:relative;z-index:2;width:100%;max-width:440px;margin:0 auto;text-align:center}
 
-.jp{color:var(--pink);font-size:.8rem;letter-spacing:.5em;margin:18px 0 6px;
-  text-shadow:0 0 10px var(--pink)}
+.jp{color:var(--blood);font-size:1.1rem;letter-spacing:.6em;margin:10px 0 4px;padding-left:.6em}
 h1{
-  position:relative;display:inline-block;font-size:clamp(4rem,14vw,7.5rem);font-weight:800;
-  letter-spacing:.06em;line-height:1;color:var(--ink);
-  text-shadow:0 0 8px var(--cyan),0 0 28px var(--cyan),0 0 60px var(--violet);
-  animation:flick 6s infinite;
+  font-family:var(--title);font-weight:700;font-size:clamp(5rem,20vw,9rem);
+  line-height:1;color:var(--bone);letter-spacing:.02em;
+  text-shadow:0 0 22px rgba(179,18,31,.65),0 2px 0 #000;
+  animation:flick 7s infinite;
 }
-h1::before,h1::after{
-  content:attr(data-text);position:absolute;inset:0;overflow:hidden;
-}
-h1::before{color:var(--pink);text-shadow:none;transform:translate(-3px,0);
-  clip-path:inset(0 0 55% 0);animation:glitchA 3.2s infinite steps(1)}
-h1::after{color:var(--cyan);text-shadow:none;transform:translate(3px,0);
-  clip-path:inset(55% 0 0 0);animation:glitchB 3.2s infinite steps(1)}
-@keyframes glitchA{0%,90%,100%{transform:translate(0)}92%{transform:translate(-6px,2px)}95%{transform:translate(5px,-2px)}}
-@keyframes glitchB{0%,86%,100%{transform:translate(0)}88%{transform:translate(6px,-2px)}93%{transform:translate(-5px,2px)}}
-@keyframes flick{0%,96%,100%{opacity:1}97%{opacity:.55}98%{opacity:1}99%{opacity:.7}}
-
-.tag{margin:14px 0 30px;font-size:.78rem;font-weight:500;letter-spacing:.18em;color:var(--cyan);opacity:.85}
-.tag span{display:inline-block;width:.6em;height:1em;margin-left:4px;vertical-align:-2px;
-  background:var(--cyan);animation:blink 1s steps(1) infinite}
-@keyframes blink{50%{opacity:0}}
+@keyframes flick{0%,95%,100%{opacity:1}96%{opacity:.5}97%{opacity:1}98%{opacity:.75}}
+.tag{margin:8px 0 34px;font-style:italic;font-size:1.05rem;color:var(--ash);letter-spacing:.08em}
 
 section{margin-bottom:26px;text-align:left}
-h2{font-size:.78rem;font-weight:500;letter-spacing:.2em;margin:0 0 10px 6px;color:var(--c)}
-section.wa{--c:var(--cyan)} section.tg{--c:var(--violet)} section.ig{--c:var(--pink)}
+h2{
+  display:flex;align-items:center;gap:12px;margin:0 0 12px 4px;
+  font-weight:400;font-style:italic;font-size:1.05rem;color:var(--blood);
+}
+h2::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--deep),transparent)}
 
 a.btn{
-  --c:inherit;
   position:relative;display:flex;justify-content:space-between;align-items:center;gap:12px;
-  padding:16px 22px;margin-bottom:12px;border-radius:14px;
-  border:1.5px solid var(--c);color:var(--ink);text-decoration:none;
-  background:linear-gradient(100deg,rgba(7,4,15,.82),rgba(20,8,40,.82));
-  box-shadow:0 0 14px -4px var(--c),inset 0 0 14px -8px var(--c);
-  font-weight:500;font-size:.95rem;letter-spacing:.06em;
-  transition:transform .15s,box-shadow .15s,background .15s;
+  padding:16px 22px;margin-bottom:12px;
+  border:1px solid rgba(236,228,211,.28);border-left:3px solid var(--blood);border-radius:2px;
+  background:linear-gradient(100deg,rgba(0,0,0,.88),rgba(26,4,7,.82));
+  color:var(--bone);text-decoration:none;font-size:1.15rem;letter-spacing:.05em;
+  box-shadow:0 6px 18px -8px #000;
+  transition:transform .15s,border-color .15s,box-shadow .15s,background .15s;
   -webkit-tap-highlight-color:transparent;
 }
-a.btn small{font-size:.72rem;opacity:.7;letter-spacing:.08em}
+a.btn small{font-size:.9rem;font-style:italic;color:var(--ash);letter-spacing:.04em}
 a.btn:hover,a.btn:active{
-  transform:translateX(4px);
-  box-shadow:0 0 26px -2px var(--c),inset 0 0 22px -6px var(--c);
-  background:linear-gradient(100deg,rgba(7,4,15,.7),color-mix(in srgb,var(--c) 22%,#14082a));
+  transform:translateX(4px);border-color:var(--blood);
+  background:linear-gradient(100deg,rgba(20,2,4,.95),rgba(92,10,16,.55));
+  box-shadow:0 0 22px -4px rgba(179,18,31,.75);
 }
-a.btn:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
-.wa a.btn{--c:var(--cyan)} .tg a.btn{--c:var(--violet)} .ig a.btn{--c:var(--pink)}
+a.btn:focus-visible{outline:2px solid var(--bone);outline-offset:3px}
 
-footer{margin-top:34px;font-size:.7rem;letter-spacing:.3em;color:var(--violet);opacity:.8}
+footer{margin-top:30px;font-size:1.2rem;color:var(--deep);letter-spacing:.4em;padding-left:.4em}
 
 @media (min-width:640px) and (max-width:999px){
   main{max-width:540px}
 }
 @media (min-width:1000px){
   main{max-width:1020px}
-  .links{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;align-items:start}
+  .links{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;align-items:start}
   section{margin-bottom:0}
   a.btn{padding:18px 22px}
 }
@@ -98,70 +81,69 @@ footer{margin-top:34px;font-size:.7rem;letter-spacing:.3em;color:var(--violet);o
   .tag{margin-bottom:18px}
 }
 @media (prefers-reduced-motion:reduce){
-  h1,h1::before,h1::after,.tag span{animation:none}
+  h1{animation:none}
   a.btn{transition:none}
 }
 </style>
 </head>
 <body>
-<canvas id="rain" aria-hidden="true"></canvas>
+<canvas id="ash" aria-hidden="true"></canvas>
 <main>
-  <p class="jp">ハッカー</p>
-  <h1 data-text="brx'">brx'</h1>
-  <p class="tag">simplemente brx'<span></span></p>
+  <p class="jp">死神</p>
+  <h1>brx'</h1>
+  <p class="tag">simplemente brx'</p>
 
   <div class="links">
-  <section class="wa">
+  <section>
     <h2>whatsapp</h2>
     <a class="btn" href="https://wa.me/524451579682" target="_blank" rel="noopener">traiciono <small>@traiciono</small></a>
     <a class="btn" href="https://wa.me/524451223649" target="_blank" rel="noopener">meodian <small>@meodian</small></a>
     <a class="btn" href="https://whatsapp.com/channel/0029VbDlfaUAO7RLCviQLz3i" target="_blank" rel="noopener">canal <small>seguir canal</small></a>
   </section>
 
-  <section class="tg">
+  <section>
     <h2>telegram</h2>
     <a class="btn" href="https://t.me/ghostbrx" target="_blank" rel="noopener">ghost <small>@ghostbrx</small></a>
     <a class="btn" href="https://t.me/silentbrx" target="_blank" rel="noopener">silent <small>@silentbrx</small></a>
     <a class="btn" href="https://t.me/havocbrx" target="_blank" rel="noopener">havoc <small>@havocbrx</small></a>
   </section>
 
-  <section class="ig">
+  <section>
     <h2>instagram</h2>
     <a class="btn" href="https://www.instagram.com/brx057?knvt=aWEwOGE5dHdpbDd4" target="_blank" rel="noopener">instagram <small>@brx057</small></a>
   </section>
   </div>
 
-  <footer>闇 の 中 で</footer>
+  <footer>終</footer>
 </main>
 
 <script>
 (function(){
-  var c=document.getElementById('rain'),x=c.getContext('2d');
-  var chars='アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン01'.split('');
-  var size=16,cols,drops,w,h;
+  var c=document.getElementById('ash'),x=c.getContext('2d'),w,h,P=[];
+  function mk(init){
+    return {x:Math.random()*w,y:init?Math.random()*h:-10,r:Math.random()*1.8+.4,
+      v:Math.random()*.5+.2,s:Math.random()*6.28,red:Math.random()<.35};
+  }
   function fit(){
     var r=window.devicePixelRatio||1;
     w=innerWidth;h=innerHeight;
     c.width=w*r;c.height=h*r;x.setTransform(r,0,0,r,0,0);
-    cols=Math.ceil(w/size);
-    drops=[];for(var i=0;i<cols;i++)drops.push(Math.random()*-40);
+    var n=Math.max(40,Math.min(120,Math.round(w*h/14000)));
+    P=[];for(var i=0;i<n;i++)P.push(mk(true));
   }
-  fit();addEventListener('resize',fit);
   function draw(){
-    x.fillStyle='rgba(7,4,15,.12)';x.fillRect(0,0,w,h);
-    x.font=size+'px monospace';
-    for(var i=0;i<cols;i++){
-      x.fillStyle=(i%3===0)?'#ff2ea6':'#19f0ff';
-      x.fillText(chars[Math.floor(Math.random()*chars.length)],i*size,drops[i]*size);
-      if(drops[i]*size>h&&Math.random()>.975)drops[i]=0;
-      drops[i]+=.6;
+    x.clearRect(0,0,w,h);
+    for(var i=0;i<P.length;i++){
+      var p=P[i];
+      p.y+=p.v;p.s+=.01;p.x+=Math.sin(p.s)*.4;
+      if(p.y>h+10)P[i]=mk(false);
+      x.fillStyle=p.red?'rgba(179,18,31,.55)':'rgba(236,228,211,.35)';
+      x.beginPath();x.arc(p.x,p.y,p.r,0,6.283);x.fill();
     }
   }
-  if(matchMedia('(prefers-reduced-motion:reduce)').matches){
-    for(var k=0;k<40;k++)draw();
-  }else{
-    setInterval(draw,50);
-  }
+  fit();addEventListener('resize',fit);
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches){draw();}
+  else{(function loop(){draw();requestAnimationFrame(loop)})();}
 })();
 </script>
 <script>
