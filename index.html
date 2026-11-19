@@ -17,7 +17,7 @@
 html,body{min-height:100%}
 body{
   background:var(--void);color:var(--ink);font-family:var(--font);
-  display:flex;justify-content:center;
+  display:flex;justify-content:center;align-items:center;min-height:100vh;min-height:100dvh;
   padding:max(28px,env(safe-area-inset-top)) 20px max(40px,env(safe-area-inset-bottom));
   overflow-x:hidden;
 }
@@ -32,12 +32,12 @@ body::after{ /* scanlines */
   content:"";position:fixed;inset:0;z-index:3;pointer-events:none;
   background:repeating-linear-gradient(transparent 0 2px,rgba(0,0,0,.28) 3px);
 }
-main{position:relative;z-index:2;width:100%;max-width:440px;text-align:center}
+main{position:relative;z-index:2;width:100%;max-width:440px;margin:0 auto;text-align:center}
 
 .jp{color:var(--pink);font-size:.8rem;letter-spacing:.5em;margin:18px 0 6px;
   text-shadow:0 0 10px var(--pink)}
 h1{
-  position:relative;display:inline-block;font-size:clamp(4rem,22vw,6.5rem);font-weight:800;
+  position:relative;display:inline-block;font-size:clamp(4rem,14vw,7.5rem);font-weight:800;
   letter-spacing:.06em;line-height:1;color:var(--ink);
   text-shadow:0 0 8px var(--cyan),0 0 28px var(--cyan),0 0 60px var(--violet);
   animation:flick 6s infinite;
@@ -84,6 +84,19 @@ a.btn:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
 
 footer{margin-top:34px;font-size:.7rem;letter-spacing:.3em;color:var(--violet);opacity:.8}
 
+@media (min-width:640px) and (max-width:999px){
+  main{max-width:540px}
+}
+@media (min-width:1000px){
+  main{max-width:1020px}
+  .links{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;align-items:start}
+  section{margin-bottom:0}
+  a.btn{padding:18px 22px}
+}
+@media (max-height:520px) and (orientation:landscape){
+  .jp{margin-top:0}
+  .tag{margin-bottom:18px}
+}
 @media (prefers-reduced-motion:reduce){
   h1,h1::before,h1::after,.tag span{animation:none}
   a.btn{transition:none}
@@ -95,8 +108,9 @@ footer{margin-top:34px;font-size:.7rem;letter-spacing:.3em;color:var(--violet);o
 <main>
   <p class="jp">ハッカー</p>
   <h1 data-text="brx'">brx'</h1>
-  <p class="tag">conectando<span></span></p>
+  <p class="tag">simplemente brx'<span></span></p>
 
+  <div class="links">
   <section class="wa">
     <h2>whatsapp</h2>
     <a class="btn" href="https://wa.me/524451579682" target="_blank" rel="noopener">traiciono <small>@traiciono</small></a>
@@ -115,6 +129,7 @@ footer{margin-top:34px;font-size:.7rem;letter-spacing:.3em;color:var(--violet);o
     <h2>instagram</h2>
     <a class="btn" href="https://www.instagram.com/brx057?knvt=aWEwOGE5dHdpbDd4" target="_blank" rel="noopener">instagram <small>@brx057</small></a>
   </section>
+  </div>
 
   <footer>闇 の 中 で</footer>
 </main>
@@ -147,6 +162,25 @@ footer{margin-top:34px;font-size:.7rem;letter-spacing:.3em;color:var(--violet);o
   }else{
     setInterval(draw,50);
   }
+})();
+</script>
+<script>
+(function(){
+  var a=new Audio('micancion.m4a');
+  a.loop=true;a.preload='auto';
+  var evs=['pointerdown','pointerup','keydown'];
+  function start(){
+    var p=a.play();
+    if(p&&p.then){
+      p.then(function(){
+        evs.forEach(function(e){removeEventListener(e,start,true)});
+      }).catch(function(){});
+    }
+  }
+  evs.forEach(function(e){addEventListener(e,start,true)});
+  document.addEventListener('visibilitychange',function(){
+    if(!document.hidden&&a.currentTime>0&&a.paused)a.play().catch(function(){});
+  });
 })();
 </script>
 </body>
