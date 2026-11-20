@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>brx'</title>
 <meta name="theme-color" content="#050203">
 <meta property="og:type" content="website">
@@ -23,7 +23,8 @@
   --text:'IM Fell English',Georgia,'Times New Roman',serif;
 }
 *{box-sizing:border-box;margin:0}
-html,body{min-height:100%}
+html,body{min-height:100%;touch-action:pan-x pan-y}
+body{-webkit-user-select:none;user-select:none}
 body{
   background:radial-gradient(ellipse at 50% 115%,#2a0508 0%,var(--black) 62%);
   color:var(--bone);font-family:var(--text);
@@ -170,6 +171,18 @@ footer{margin-top:30px;font-size:1.2rem;color:var(--deep);letter-spacing:.4em;pa
   evs.forEach(function(e){addEventListener(e,start,true)});
   document.addEventListener('visibilitychange',function(){
     if(!document.hidden&&a.currentTime>0&&a.paused)a.play().catch(function(){});
+  });
+})();
+</script>
+<script>
+(function(){
+  var d=document;
+  ['gesturestart','gesturechange','gestureend','selectstart','copy','cut','dragstart'].forEach(function(e){
+    d.addEventListener(e,function(ev){ev.preventDefault()});
+  });
+  addEventListener('wheel',function(ev){if(ev.ctrlKey)ev.preventDefault()},{passive:false});
+  addEventListener('keydown',function(ev){
+    if((ev.ctrlKey||ev.metaKey)&&['+','-','=','0','c','a','x'].indexOf(ev.key.toLowerCase())>-1)ev.preventDefault();
   });
 })();
 </script>
